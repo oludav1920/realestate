@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Property | Lead Maps & Property</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset & Base */
+        :root {
+            --primary: #27ae60;
+            --primary-dark: #219150;
+            --secondary: #2c3e50;
+            --light: #f8f9fa;
+            --dark: #1a252f;
+            --gray: #7f8c8d;
+            --light-gray: #ecf0f1;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--secondary);
+            background-color: var(--light-gray);
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0;
+            line-height: 1.2;
+        }
+
+        .logo-text span {
+            color: var(--primary);
+        }
+
+        .tagline {
+            font-size: 0.8rem;
+            color: var(--gray);
+            font-style: italic;
+        }
+
+        .back-button {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .back-button:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Main Content */
+        main {
+            padding: 60px 0;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title h1 {
+            font-size: 2.2rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .page-title h1:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background-color: var(--primary);
+        }
+
+        .page-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Form Container */
+        .form-container {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-note {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+            text-align: center;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--dark);
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        .copyright {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+        }
+
+        .motto {
+            color: var(--primary);
+            font-style: italic;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 25px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .page-title h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                width: 95%;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .page-title h1 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Lead Maps & <span>Property</span></h1>
+                    <div class="tagline">Leading with Precision & Integrity</div>
+                </div>
+            </div>
+            
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <div class="page-title">
+                <h1>Upload New Property</h1>
+                <p>Fill in the details below to list your property for sale or rent</p>
+            </div>
+            
+            <div class="form-container">
+                <form action="/uploadproccess" method="post" enctype="multipart/form-data">
+                    <!-- Property Title & Type -->
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 1;">
+                            <label class="form-label" for="propertyTitle">Property Title</label>
+                            <input type="text" name="title" id="propertyTitle" class="form-control" placeholder="Modern Duplex in Lekki" required>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label class="form-label" for="propertyType">Property Type</label>
+                            <select name="type" id="propertyType" class="form-control" required>
+                                <option value="">Select type</option>
+                                <option value="residential">Residential</option>
+                                <option value="commercial">Commercial</option>
+                                <option value="land">Land</option>
+                                <option value="apartment">Apartment</option>
+                                <option value="office">Office Space</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Price & Location -->
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 1;">
+                            <label class="form-label" for="uploadPrice">Price (₦)</label>
+                            <input type="number" name="price" id="uploadPrice" class="form-control" placeholder="75000000" required>
+                            <div class="form-note">Enter the total price in Nigerian Naira</div>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label class="form-label" for="uploadLocation">Location</label>
+                            <input type="text" name="location" id="uploadLocation" class="form-control" placeholder="Lekki, Lagos" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Description -->
+                    <div class="form-group">
+                        <label class="form-label" for="description">Property Description</label>
+                        <textarea id="description" name="description" class="form-control" placeholder="Describe the property in detail including features, amenities, nearby facilities, etc..." required></textarea>
+                        <div class="form-note">Provide detailed description to attract potential buyers</div>
+                    </div>
+                    
+                    <!-- Image & Agent ID -->
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 1;">
+                            <label class="form-label" for="image">Property Image</label>
+                            <input type="file" name="image" accept="image/*" id="image" class="form-control" required>
+                            <div class="form-note">Upload a clear image of the property (JPEG, PNG, max 5MB)</div>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label class="form-label" for="agentId">Agent ID</label>
+                            <input type="text" name="agent_id" id="agentId" class="form-control" placeholder="AGENT-001" required>
+                            <div class="form-note">Your unique agent identification number</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Details
+                    <div class="form-group">
+                        <label class="form-label">Additional Features (Optional)</label>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 10px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="parking" name="features[]" value="parking">
+                                <label for="parking" style="color: var(--gray);">Parking Space</label>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="security" name="features[]" value="security">
+                                <label for="security" style="color: var(--gray);">24/7 Security</label>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="pool" name="features[]" value="pool">
+                                <label for="pool" style="color: var(--gray);">Swimming Pool</label>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="gym" name="features[]" value="gym">
+                                <label for="gym" style="color: var(--gray);">Gym</label>
+                            </div>
+                        </div>
+                    </div> -->
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-secondary">
+                        <i class="fas fa-upload"></i> Upload Property
+                    </button>
+                    
+                    <div class="form-note" style="text-align: center; margin-top: 20px;">
+                        By submitting this form, you agree to our terms of service. Our team will review your property listing within 24 hours.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="motto">Leading with Precision and Integrity</div>
+            <div class="copyright">
+                <p>&copy; 2023 Lead Maps and Property Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

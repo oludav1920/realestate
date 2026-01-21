@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Property | Lead Maps & Property</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset & Base */
+        :root {
+            --primary: #27ae60;
+            --primary-dark: #219150;
+            --secondary: #2c3e50;
+            --light: #f8f9fa;
+            --dark: #1a252f;
+            --gray: #7f8c8d;
+            --light-gray: #ecf0f1;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--secondary);
+            background-color: var(--light-gray);
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0;
+            line-height: 1.2;
+        }
+
+        .logo-text span {
+            color: var(--primary);
+        }
+
+        .tagline {
+            font-size: 0.8rem;
+            color: var(--gray);
+            font-style: italic;
+        }
+
+        .back-button {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .back-button:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Main Content */
+        main {
+            padding: 60px 0;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title h1 {
+            font-size: 2.2rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .page-title h1:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background-color: var(--primary);
+        }
+
+        .page-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Form Container */
+        .form-container {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+
+        /* Payment Summary */
+        .payment-summary {
+            background-color: var(--light-gray);
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .payment-summary h4 {
+            color: var(--secondary);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .summary-total {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            border-bottom: none;
+            padding-top: 20px;
+            margin-top: 10px;
+            border-top: 2px solid #ddd;
+        }
+
+        .summary-note {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-top: 15px;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+            text-align: center;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        /* Property Preview */
+        .property-preview {
+            background-color: var(--light-gray);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .property-preview h3 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .preview-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .preview-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gray);
+        }
+
+        .preview-item i {
+            color: var(--primary);
+        }
+
+        .price-highlight {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        .copyright {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+        }
+
+        .motto {
+            color: var(--primary);
+            font-style: italic;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 25px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .page-title h1 {
+                font-size: 1.8rem;
+            }
+            
+            .preview-details {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                width: 95%;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .page-title h1 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Lead Maps & <span>Property</span></h1>
+                    <div class="tagline">Leading with Precision & Integrity</div>
+                </div>
+            </div>
+            
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <div class="page-title">
+                <h1>Property Purchase</h1>
+                <p>Complete the form below to proceed with your property purchase</p>
+            </div>
+            
+            <div class="form-container">
+                <!-- Property Preview -->
+                <div class="property-preview">
+                    <h3>Selected Property</h3>
+                    <div id="propertyDetails">
+                        <!-- This will be populated dynamically -->
+                        <p>Please select a property to purchase from the home page</p>
+                    </div>
+                </div>
+                
+                <form id="purchaseForm">
+                    <h3 style="margin-bottom: 25px; color: var(--secondary);">Buyer Information</h3>
+                    
+                    <!-- Personal Information -->
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 1;">
+                            <label class="form-label" for="fullName">Full Name</label>
+                            <input type="text" id="fullName" class="form-control" placeholder="John Smith" required>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label class="form-label" for="email">Email Address</label>
+                            <input type="email" id="email" class="form-control" placeholder="john@example.com" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Information -->
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 1;">
+                            <label class="form-label" for="phone">Phone Number</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="080X XXX XXXX" required>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label class="form-label" for="propertyId">Property ID</label>
+                            <input type="text" id="propertyId" class="form-control" placeholder="LMP-001" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Property Address -->
+                    <div class="form-group">
+                        <label class="form-label" for="propertyAddress">Property Address</label>
+                        <input type="text" id="propertyAddress" class="form-control" placeholder="Full property address" required>
+                    </div>
+                    
+                    <!-- Price & Payment Method -->
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 1;">
+                            <label class="form-label" for="price">Price (₦)</label>
+                            <input type="number" id="price" class="form-control" placeholder="50000000" required>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label class="form-label" for="paymentMethod">Payment Method</label>
+                            <select id="paymentMethod" class="form-control" required>
+                                <option value="">Select method</option>
+                                <option value="bank">Bank Transfer</option>
+                                <option value="card">Credit/Debit Card</option>
+                                <option value="online">Online Payment</option>
+                                <option value="cheque">Bank Cheque</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Notes -->
+                    <div class="form-group">
+                        <label class="form-label" for="notes">Additional Notes</label>
+                        <textarea id="notes" class="form-control" placeholder="Any special requirements, questions, or additional information..."></textarea>
+                    </div>
+                    
+                    <!-- Payment Summary -->
+                    <div class="payment-summary">
+                        <h4>Payment Summary</h4>
+                        <div class="summary-item">
+                            <span>Property Price:</span>
+                            <span id="summaryPrice">₦ 0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Processing Fee:</span>
+                            <span>₦ 50,000</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Legal Fee:</span>
+                            <span>₦ 100,000</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>VAT (7.5%):</span>
+                            <span id="summaryVAT">₦ 0</span>
+                        </div>
+                        <div class="summary-item summary-total">
+                            <span>Total Amount:</span>
+                            <span id="summaryTotal">₦ 0</span>
+                        </div>
+                        <div class="summary-note">
+                            *All fees are inclusive of taxes. Payment confirmation may take 24-48 hours.
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn">
+                        <i class="fas fa-credit-card"></i> Proceed to Payment
+                    </button>
+                    
+                    <div class="summary-note" style="margin-top: 20px;">
+                        By submitting this form, you agree to our terms and conditions. Our team will contact you within 24 hours to complete the transaction.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="motto">Leading with Precision and Integrity</div>
+            <div class="copyright">
+                <p>&copy; 2023 Lead Maps and Property Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const purchaseForm = document.getElementById('purchaseForm');
+        const priceInput = document.getElementById('price');
+        const summaryPrice = document.getElementById('summaryPrice');
+        const summaryVAT = document.getElementById('summaryVAT');
+        const summaryTotal = document.getElementById('summaryTotal');
+        const propertyDetails = document.getElementById('propertyDetails');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            checkURLForProperty();
+            updatePaymentSummary(0);
+        });
+
+        // Check if property data was passed via URL
+        function checkURLForProperty() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const propertyTitle = urlParams.get('title');
+            const propertyLocation = urlParams.get('location');
+            const propertyPrice = urlParams.get('price');
+            const propertyId = urlParams.get('id');
+            
+            if (propertyTitle && propertyPrice) {
+                // Populate property preview
+                propertyDetails.innerHTML = `
+                    <h4 style="margin-bottom: 10px; color: var(--secondary);">${propertyTitle}</h4>
+                    <div class="preview-details">
+                        <div class="preview-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>${propertyLocation || 'Location not specified'}</span>
+                        </div>
+                        <div class="preview-item">
+                            <i class="fas fa-tag"></i>
+                            <span>Property ID: ${propertyId || 'N/A'}</span>
+                        </div>
+                    </div>
+                    <div class="price-highlight">₦${parseInt(propertyPrice).toLocaleString()}</div>
+                `;
+                
+                // Auto-fill the form
+                document.getElementById('propertyId').value = propertyId || '';
+                document.getElementById('propertyAddress').value = propertyLocation || '';
+                document.getElementById('price').value = propertyPrice;
+                
+                updatePaymentSummary(parseInt(propertyPrice));
+            }
+        }
+
+        // Setup Event Listeners
+        function setupEventListeners() {
+            // Form submission
+            purchaseForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const price = document.getElementById('price').value;
+                const propertyTitle = document.querySelector('.property-preview h4')?.textContent || 'Property';
+                
+                alert(`Purchase request submitted for ${propertyTitle}!\n\nTotal: ₦${parseInt(price).toLocaleString()}\n\nOur team will contact you within 24 hours to complete the transaction.`);
+                this.reset();
+                updatePaymentSummary(0);
+                
+                // Reset property preview
+                propertyDetails.innerHTML = '<p>Please select a property to purchase from the home page</p>';
+            });
+
+            // Payment summary update
+            priceInput.addEventListener('input', function() {
+                const price = parseInt(this.value) || 0;
+                updatePaymentSummary(price);
+            });
+        }
+
+        // Update Payment Summary
+        function updatePaymentSummary(price) {
+            const processingFee = 50000;
+            const legalFee = 100000;
+            const vat = price * 0.075;
+            const total = price + processingFee + legalFee + vat;
+            
+            summaryPrice.textContent = `₦ ${price.toLocaleString()}`;
+            summaryVAT.textContent = `₦ ${vat.toLocaleString()}`;
+            summaryTotal.textContent = `₦ ${total.toLocaleString()}`;
+        }
+    </script>
+</body>
+</html>
