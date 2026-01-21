@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Registration | Lead Maps & Property</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reuse the existing CSS from the main page */
+        :root {
+            --primary: #27ae60; /* Green */
+            --primary-dark: #219150;
+            --secondary: #2c3e50; /* Dark Blue/Black */
+            --accent: #f39c12; /* Gold accent */
+            --light: #f8f9fa;
+            --dark: #1a252f;
+            --gray: #7f8c8d;
+            --light-gray: #ecf0f1;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--secondary);
+            background-color: var(--white);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        section {
+            padding: 60px 0;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        h2 {
+            font-size: 2rem;
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 2rem;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background-color: var(--primary);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            display: inline-block;
+        }
+
+        .section-title h2:after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--gray);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--dark);
+        }
+
+        /* Header */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0;
+            line-height: 1.2;
+        }
+
+        .logo-text span {
+            color: var(--primary);
+        }
+
+        .tagline {
+            font-size: 0.8rem;
+            color: var(--gray);
+            font-style: italic;
+        }
+
+        /* Registration Container */
+        .registration-container {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 100px;
+            background-color: var(--light-gray);
+        }
+
+        .registration-sidebar {
+            flex: 1;
+            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.95)), url('https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .registration-content {
+            flex: 2;
+            padding: 60px 40px;
+            background-color: var(--white);
+        }
+
+        .benefits-list {
+            margin-top: 30px;
+        }
+
+        .benefits-list li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .benefits-list i {
+            color: var(--primary);
+            margin-top: 3px;
+        }
+
+        /* Registration Steps */
+        .registration-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .registration-steps:before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--light-gray);
+            z-index: 1;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background-color: var(--light-gray);
+            color: var(--gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            transition: var(--transition);
+        }
+
+        .step.active .step-number {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .step.completed .step-number {
+            background-color: var(--primary-dark);
+            color: white;
+        }
+
+        .step-text {
+            font-weight: 600;
+            color: var(--gray);
+        }
+
+        .step.active .step-text {
+            color: var(--primary);
+        }
+
+        /* Registration Form */
+        .form-container {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .form-check-input {
+            margin-right: 10px;
+            margin-top: 5px;
+        }
+
+        .form-check-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .form-check-label a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .form-check-label a:hover {
+            text-decoration: underline;
+        }
+
+        /* Upload Preview */
+        .upload-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 8px;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .upload-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Form Navigation */
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary);
+            color: white;
+            padding: 40px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3:after {
+            background-color: var(--primary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+        }
+
+        .motto {
+            color: var(--primary);
+            font-style: italic;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* Modal for terms */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .registration-container {
+                flex-direction: column;
+            }
+            
+            .registration-sidebar {
+                padding: 40px 20px;
+            }
+            
+            .registration-content {
+                padding: 40px 20px;
+            }
+            
+            .registration-steps {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+            }
+            
+            .registration-steps:before {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .form-navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .form-navigation .btn {
+                width: 100%;
+            }
+            
+            .step-text {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                width: 95%;
+            }
+            
+            section {
+                padding: 40px 0;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .registration-steps {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+        
+        .mt-1 { margin-top: 1rem; }
+        .mt-2 { margin-top: 2rem; }
+        .mt-3 { margin-top: 3rem; }
+        .mb-1 { margin-bottom: 1rem; }
+        .mb-2 { margin-bottom: 2rem; }
+        .mb-3 { margin-bottom: 3rem; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Lead Maps & <span>Property</span></h1>
+                    <div class="tagline">Leading with Precision & Integrity</div>
+                </div>
+            </div>
+            
+            <div>
+                <a href="index.html" class="btn btn-outline">Back to Home</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Registration Section -->
+    <section class="registration-container">
+        <div class="registration-sidebar">
+            <h2>Join Our Network of Professional Agents</h2>
+            <p>As a registered agent with Lead Maps & Property, you'll get access to premium tools and resources to grow your real estate business.</p>
+            
+            <div class="benefits-list">
+                <h3 class="mt-2">Benefits of Joining:</h3>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Access to premium property listings</li>
+                    <li><i class="fas fa-check-circle"></i> Professional marketing tools</li>
+                    <li><i class="fas fa-check-circle"></i> Training & certification programs</li>
+                    <li><i class="fas fa-check-circle"></i> Lead generation support</li>
+                    <li><i class="fas fa-check-circle"></i> Competitive commission rates</li>
+                    <li><i class="fas fa-check-circle"></i> Legal and documentation support</li>
+                </ul>
+            </div>
+            
+            <div class="mt-3">
+                <p><strong>Already have an account?</strong></p>
+                <a href="#" class="btn btn-outline" style="background-color: transparent; border-color: white; color: white;">Agent Login</a>
+            </div>
+        </div>
+        
+        <div class="registration-content">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Agent Registration</h2>
+                    <p>Complete the form below to join our professional network</p>
+                </div>
+                
+                <!-- Registration Steps -->
+                <div class="registration-steps">
+                    <div class="step active" id="step1">
+                        <div class="step-number">1</div>
+                        <div class="step-text">Personal Info</div>
+                    </div>
+                    <div class="step" id="step2">
+                        <div class="step-number">2</div>
+                        <div class="step-text">Professional Details</div>
+                    </div>
+                    <div class="step" id="step3">
+                        <div class="step-number">3</div>
+                        <div class="step-text">Documents & Verification</div>
+                    </div>
+                </div>
+                
+                <!-- Registration Form -->
+                <div class="form-container">
+                    <form action="/regproccess" method="post" enctype="multipart/form-data" id="">
+                        <!-- Step 1: Personal Information -->
+                        <div class="form-step active" id="step1-form">
+                            <h3 class="mb-2">Personal Information</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="firstName">First Name</label>
+                                    <input type="text" name="first_name" id="firstName" class="form-control" placeholder="John" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="lastName">Last Name</label>
+                                    <input type="text" name="last_name" id="lastName" class="form-control" placeholder="Smith" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="email">Email Address</label>
+                                    <input type="email" name="email" id="email" class="form-control" placeholder="john@example.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="phone">Phone Number</label>
+                                    <input type="tel" name="phone_number" id="phone" class="form-control" placeholder="080X XXX XXXX" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="password">Password</label>
+                                    <input type="password" name="password" id="password" class="form-control" placeholder="Create a strong password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="confirmPassword">Confirm Password</label>
+                                    <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="address">Residential Address</label>
+                                <textarea id="address" name="address" class="form-control" placeholder="Your full residential address" required></textarea>
+                            </div>
+                            
+                            <div class="form-navigation">
+                                <div></div>
+                                <button type="button" class="btn" id="nextToStep2">Next <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 2: Professional Details -->
+                        <div class="form-step hidden" id="step2-form">
+                            <h3 class="mb-2">Professional Details</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="agencyName">Agency Name (if applicable)</label>
+                                    <input type="text" name="agency_name" id="agencyName" class="form-control" placeholder="ABC Real Estate Agency">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="licenseNumber">License Number</label>
+                                    <input type="text" name="license_number" id="licenseNumber" class="form-control" placeholder="LAG-REA-2023-XXXX" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="experience">Years of Experience</label>
+                                    <select id="experience" name="years_experience" class="form-control" required>
+                                        <option value="">Select experience</option>
+                                        <option value="0-2">0-2 years</option>
+                                        <option value="3-5">3-5 years</option>
+                                        <option value="6-10">6-10 years</option>
+                                        <option value="10+">10+ years</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="specialization">Specialization</label>
+                                    <select id="specialization" name="specialization" class="form-control" required>
+                                        <option value="">Select specialization</option>
+                                        <option value="residential">Residential Properties</option>
+                                        <option value="commercial">Commercial Properties</option>
+                                        <option value="land">Land & Surveying</option>
+                                        <option value="mixed">Mixed Portfolio</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="bio">Professional Bio</label>
+                                <textarea id="bio" name="personal_bio" class="form-control" placeholder="Tell us about your professional background, achievements, and expertise..." rows="4"></textarea>
+                            </div>
+                            
+                            <div class="form-navigation">
+                                <button type="button" class="btn btn-outline" id="backToStep1"><i class="fas fa-arrow-left"></i> Back</button>
+                                <button type="button" class="btn" id="nextToStep3">Next <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 3: Documents & Verification -->
+                        <div class="form-step hidden" id="step3-form">
+                            <h3 class="mb-2">Documents & Verification</h3>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="licenseUpload">Real Estate License (PDF/Image)</label>
+                                <input type="file" name="license" id="licenseUpload" class="form-control" accept="image/" accept=".pdf,.jpg,.jpeg,.png">
+                                <small class="form-text">Upload a clear copy of your valid real estate license</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="idUpload">Government ID (Passport/Driver's License)</label>
+                                <input type="file" name="government_id" id="idUpload" class="form-control" accept="image/" accept=".pdf,.jpg,.jpeg,.png">
+                                <small class="form-text">Upload a clear copy of your government-issued ID</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Profile Photo</label>
+                                <div class="upload-preview" id="photoPreview">
+                                    <i class="fas fa-user-circle" style="font-size: 3rem; color: var(--gray);"></i>
+                                </div>
+                                <input type="file" name="profile_image" id="profilePhoto" class="form-control" accept="image/" accept=".jpg,.jpeg,.png" onchange="previewPhoto(event)">
+                                <small class="form-text">Upload a professional profile photo</small>
+                            </div>
+                            
+                            <div class="form-check">
+                                <input type="checkbox" id="terms" class="form-check-input" required>
+                                <label for="terms" class="form-check-label">
+                                    I agree to the <a href="#" id="termsLink">Terms and Conditions</a> and <a href="#" id="privacyLink">Privacy Policy</a> of Lead Maps & Property Limited. I confirm that all information provided is accurate.
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="hidden" name="status" value="pending">
+                            </div>
+                            
+                            <div class="form-navigation">
+                                <button type="button" class="btn btn-outline" id="backToStep2"><i class="fas fa-arrow-left"></i> Back</button>
+                                <button type="submit" class="btn" id="successModal">Complete Registration</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>Lead Maps & Property</h3>
+                    <p>Professional surveying, mapping, and property management services with accuracy and integrity.</p>
+                    <div class="motto">Leading with Precision and Integrity</div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#about">About Us</a></li>
+                        <li><a href="index.html#services">Services</a></li>
+                        <li><a href="index.html#properties">Properties</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="index.html#services">Boundary Survey</a></li>
+                        <li><a href="index.html#services">GPS Mapping</a></li>
+                        <li><a href="index.html#services">Property Documentation</a></li>
+                        <li><a href="index.html#services">Agent Network</a></li>
+                        <li><a href="index.html#services">Property Valuation</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> 08057167001</li>
+                        <li><i class="fas fa-envelope"></i> leadmapandpropertylimited@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Lead Maps and Property Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Terms Modal -->
+    <div class="modal" id="termsModal">
+        <div class="modal-content">
+            <span class="close-modal" data-modal="termsModal">&times;</span>
+            <h3>Terms and Conditions</h3>
+            <div style="max-height: 400px; overflow-y: auto; padding-right: 10px;">
+                <p><strong>Agent Agreement Terms</strong></p>
+                <p>By registering as an agent with Lead Maps & Property Limited, you agree to the following terms:</p>
+                <ol>
+                    <li>All information provided during registration must be accurate and verifiable.</li>
+                    <li>You must maintain a valid real estate license throughout your affiliation with us.</li>
+                    <li>Commissions are paid according to the agreed schedule upon successful property transactions.</li>
+                    <li>You agree to abide by professional ethics and code of conduct in all dealings.</li>
+                    <li>Lead Maps & Property Limited reserves the right to verify all submitted documents.</li>
+                    <li>Your account may be suspended if fraudulent activity is detected.</li>
+                    <li>You are responsible for maintaining the confidentiality of your login credentials.</li>
+                    <li>We may contact you for training, updates, or promotional opportunities.</li>
+                    <li>Either party may terminate this agreement with 30 days written notice.</li>
+                    <li>These terms may be updated periodically, and continued use constitutes acceptance.</li>
+                </ol>
+                <p class="mt-2"><strong>Commission Structure:</strong></p>
+                <p>Standard commission rates range from 2.5% to 5% depending on property value and type. Special rates apply to premium listings and corporate clients.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Modal -->
+    <div class="modal" id="privacyModal">
+        <div class="modal-content">
+            <span class="close-modal" data-modal="privacyModal">&times;</span>
+            <h3>Privacy Policy</h3>
+            <div style="max-height: 400px; overflow-y: auto; padding-right: 10px;">
+                <p><strong>Data Collection and Usage</strong></p>
+                <p>Lead Maps & Property Limited is committed to protecting your privacy. This policy explains how we collect, use, and safeguard your information.</p>
+                
+                <p><strong>Information We Collect:</strong></p>
+                <ul>
+                    <li>Personal identification information (name, email, phone number, address)</li>
+                    <li>Professional information (license details, experience, specialization)</li>
+                    <li>Documentation (real estate license, government ID, profile photo)</li>
+                    <li>Transaction history and performance metrics</li>
+                </ul>
+                
+                <p><strong>How We Use Your Information:</strong></p>
+                <ul>
+                    <li>To verify your identity and professional credentials</li>
+                    <li>To facilitate property transactions and commission payments</li>
+                    <li>To provide you with relevant property listings and leads</li>
+                    <li>To communicate important updates, training, and opportunities</li>
+                    <li>To improve our services and agent network</li>
+                </ul>
+                
+                <p><strong>Data Security:</strong></p>
+                <p>We implement appropriate security measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction. Your documents are stored securely and accessed only by authorized personnel for verification purposes.</p>
+                
+                <p><strong>Third-Party Disclosure:</strong></p>
+                <p>We do not sell, trade, or otherwise transfer your personally identifiable information to outside parties except as necessary to facilitate property transactions or as required by law.</p>
+                
+                <p><strong>Your Rights:</strong></p>
+                <p>You have the right to access, correct, or delete your personal information. You may also opt out of promotional communications at any time.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <span class="close-modal" data-modal="successModal">&times;</span>
+            <div class="text-center">
+                <div style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Registration Submitted Successfully!</h3>
+                <p>Thank you for registering as an agent with Lead Maps & Property Limited.</p>
+                <p>Our team will review your application and verify your documents within <strong>2-3 business days</strong>. You will receive an email notification once your account is activated.</p>
+                <p>For any inquiries, please contact us at <strong>leadmapandpropertylimited@gmail.com</strong> or call <strong>08057167001</strong>.</p>
+                <div class="mt-3">
+                    <a href="index.html" class="btn">Return to Homepage</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const agentRegistrationForm = document.getElementById('agentRegistrationForm');
+        const formSteps = document.querySelectorAll('.form-step');
+        const stepIndicators = document.querySelectorAll('.step');
+        const nextToStep2 = document.getElementById('nextToStep2');
+        const nextToStep3 = document.getElementById('nextToStep3');
+        const backToStep1 = document.getElementById('backToStep1');
+        const backToStep2 = document.getElementById('backToStep2');
+        const submitRegistration = document.getElementById('submitRegistration');
+        const termsLink = document.getElementById('termsLink');
+        const privacyLink = document.getElementById('privacyLink');
+        const termsModal = document.getElementById('termsModal');
+        const privacyModal = document.getElementById('privacyModal');
+        const successModal = document.getElementById('successModal');
+        const photoPreview = document.getElementById('photoPreview');
+
+        // Current step tracking
+        let currentStep = 1;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+        });
+
+        // Setup Event Listeners
+        function setupEventListeners() {
+            // Step navigation
+            nextToStep2.addEventListener('click', function() {
+                if (validateStep1()) {
+                    navigateToStep(2);
+                }
+            });
+
+            nextToStep3.addEventListener('click', function() {
+                if (validateStep2()) {
+                    navigateToStep(3);
+                }
+            });
+
+            backToStep1.addEventListener('click', function() {
+                navigateToStep(1);
+            });
+
+            backToStep2.addEventListener('click', function() {
+                navigateToStep(2);
+            });
+
+            // // Form submission
+            // agentRegistrationForm.addEventListener('submit', function(e) {
+            //     e.preventDefault();
+                
+            //     if (validateStep3()) {
+            //         // In a real application, you would send form data to server here
+            //         // For demo purposes, we'll show success modal
+                    
+            //         // Reset form
+            //         this.reset();
+                    
+            //         // Reset steps
+            //         navigateToStep(1);
+                    
+            //         // Reset photo preview
+            //         photoPreview.innerHTML = '<i class="fas fa-user-circle" style="font-size: 3rem; color: var(--gray);"></i>';
+                    
+            //         // Show success modal
+            //         successModal.style.display = 'flex';
+            //     }
+            // });
+
+            // Terms and Privacy modals
+            termsLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                termsModal.style.display = 'flex';
+            });
+
+            privacyLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                privacyModal.style.display = 'flex';
+            });
+
+            // Close modals
+            document.querySelectorAll('.close-modal').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const modalId = this.getAttribute('data-modal');
+                    document.getElementById(modalId).style.display = 'none';
+                });
+            });
+
+            // Close modals when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target.classList.contains('modal')) {
+                    e.target.style.display = 'none';
+                }
+            });
+
+            // Password confirmation validation
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+            
+            confirmPassword.addEventListener('input', function() {
+                if (password.value !== confirmPassword.value) {
+                    this.style.borderColor = '#e74c3c';
+                    this.style.boxShadow = '0 0 0 3px rgba(231, 76, 60, 0.1)';
+                } else {
+                    this.style.borderColor = '#27ae60';
+                    this.style.boxShadow = '0 0 0 3px rgba(39, 174, 96, 0.1)';
+                }
+            });
+        }
+
+        // Navigate between steps
+        function navigateToStep(step) {
+            // Hide all form steps
+            formSteps.forEach(formStep => {
+                formStep.classList.remove('active');
+                formStep.classList.add('hidden');
+            });
+            
+            // Show current form step
+            document.getElementById(`step${step}-form`).classList.add('active');
+            document.getElementById(`step${step}-form`).classList.remove('hidden');
+            
+            // Update step indicators
+            stepIndicators.forEach((indicator, index) => {
+                indicator.classList.remove('active', 'completed');
+                
+                if (index + 1 < step) {
+                    indicator.classList.add('completed');
+                } else if (index + 1 === step) {
+                    indicator.classList.add('active');
+                }
+            });
+            
+            currentStep = step;
+            
+            // Scroll to top of form
+            document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Step validation functions
+        function validateStep1() {
+            const firstName = document.getElementById('firstName');
+            const lastName = document.getElementById('lastName');
+            const email = document.getElementById('email');
+            const phone = document.getElementById('phone');
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+            const address = document.getElementById('address');
+            
+            // Basic validation
+            if (!firstName.value.trim()) {
+                alert('Please enter your first name');
+                firstName.focus();
+                return false;
+            }
+            
+            if (!lastName.value.trim()) {
+                alert('Please enter your last name');
+                lastName.focus();
+                return false;
+            }
+            
+            if (!email.value.trim() || !isValidEmail(email.value)) {
+                alert('Please enter a valid email address');
+                email.focus();
+                return false;
+            }
+            
+            if (!phone.value.trim() || phone.value.length < 10) {
+                alert('Please enter a valid phone number');
+                phone.focus();
+                return false;
+            }
+            
+            if (!password.value.trim() || password.value.length < 8) {
+                alert('Password must be at least 8 characters long');
+                password.focus();
+                return false;
+            }
+            
+            if (password.value !== confirmPassword.value) {
+                alert('Passwords do not match');
+                confirmPassword.focus();
+                return false;
+            }
+            
+            if (!address.value.trim()) {
+                alert('Please enter your residential address');
+                address.focus();
+                return false;
+            }
+            
+            return true;
+        }
+
+        function validateStep2() {
+            const licenseNumber = document.getElementById('licenseNumber');
+            const experience = document.getElementById('experience');
+            const specialization = document.getElementById('specialization');
+            
+            if (!licenseNumber.value.trim()) {
+                alert('Please enter your real estate license number');
+                licenseNumber.focus();
+                return false;
+            }
+            
+            if (!experience.value) {
+                alert('Please select your years of experience');
+                experience.focus();
+                return false;
+            }
+            
+            if (!specialization.value) {
+                alert('Please select your specialization');
+                specialization.focus();
+                return false;
+            }
+            
+            return true;
+        }
+
+        function validateStep3() {
+            const terms = document.getElementById('terms');
+            
+            if (!terms.checked) {
+                alert('You must agree to the Terms and Conditions and Privacy Policy to register');
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Email validation helper
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Photo preview function
+        function previewPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    photoPreview.innerHTML = `<img src="${e.target.result}" alt="Profile Preview">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>
