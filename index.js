@@ -5,6 +5,8 @@ const mysql = require('mysql');
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(express.json());
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(express.static('Public'));
 const multer = require('multer');
@@ -22,8 +24,28 @@ app.get("/adminreg",(req,res)=>{
     res.sendFile(__dirname+"/Public/admin-reg.html");
 });
 
+app.get("/clientreg",(req,res)=>{
+    res.sendFile(__dirname+"/Public/client-reg.html");
+});
+
 app.get("/adminlogin",(req,res)=>{
     res.sendFile(__dirname+"/Public/admin-login.html");
+});
+
+app.get("/agentlogin",(req,res)=>{
+    res.sendFile(__dirname+"/Public/agent-login.html");
+});
+
+app.get("/clientlogin",(req,res)=>{
+    res.sendFile(__dirname+"/Public/client-login.html");
+});
+
+app.get("/dashboard",(req,res)=>{
+    res.sendFile(__dirname+"/Public/dashboard.html");
+});
+
+app.get("/uploadproperty",(req,res)=>{
+    res.sendFile(__dirname+"/Public/upload-property.html");
 });
 
 //database connection
@@ -37,7 +59,7 @@ app.get("/adminlogin",(req,res)=>{
  //set the storage function
 const storageVar = multer.diskStorage({
     destination: (req, file, cb)=>{
-        cb(null, '/uploadedFiles/');
+        cb(null, './Public/uploadedFiles/');
     },
     filename: (req, file, cb)=>{
         cb(null, Date.now()+"_"+file.originalname);
@@ -100,10 +122,10 @@ app.post('/regproccess', upload.fields([
         years_experience, 
         specialization, 
         personal_bio, 
-        licensePath,         // license column
-        govIdPath,          // government_id column
-        profileImagePath,   // image column
-        status              // status column
+        licensePath,         
+        govIdPath,          
+        profileImagePath,   
+        status              
     ];
 
     const qry = `INSERT INTO ${process.env.USERS_TABLE}(
@@ -124,6 +146,59 @@ app.post('/regproccess', upload.fields([
     });
 });
 
+app.post('/agentloginprocess', (req,res)=>{
+    //SELECT QUERY
+const {email, password} = req.body;
+    console.log(email,password);
+    if(!email || !password){
+        res.status(400).json();
+    }
+    else{
+        
+        const log =`SELECT * FROM ${process.env.USERS_TABLE} WHERE email=? AND password=?`;
+        con.query(log, [email, password], (err, result)=>{
+            if(err){
+                console.log(err);
+            }
+            if(result.length > 0){
+                console.log("success");
+                return res.status(200).json(JSON.stringify(result[0]));
+            }
+            else{
+                console.log('fail');
+                return res.status(404).json();
+            }
+            console.log("login success");
+            res.sendFile(__dirname+"/Public/upload-property.html");
+        });
+    }
+});
+
+app.post('/clientloginprocess', (req,res)=>{
+    //SELECT QUERY
+const {email, password} = req.body;
+    console.log(email,password);
+    if(!email || !password){
+        res.status(400).json();
+    }
+    else{
+        const log =`SELECT FROM root WHERE email=? AND password=?`;
+        con.query(log, [email, password], (err,result)=>{
+            if(err){
+                console.log(err.message);
+            }
+            if(result.length > 0){
+                return res.status(200).json(JSON.stringify(result[0]));
+            }
+            else{
+                return res.status(400).json();
+            }
+            console.log("login success");
+            res.sendFile(__dirname+"/Public/dashboard.html");
+        });
+    }
+});
+
 app.post('/adminregproccess', async(req,res)=>{
     const {fulname, email, phone_number, password} = req.body;
 
@@ -131,6 +206,23 @@ app.post('/adminregproccess', async(req,res)=>{
     //INSERT DATA
     const dataToInsert = [fulname, email, phone_number, hashedPassword];
     const qry = `INSERT INTO ${process.env.ADMIN_TABLE}(fullname, email, phone_number, password) VALUES(?,?,?,?)`;
+    con.query(qry, dataToInsert, (err,result)=>{
+        if(err){
+            console.log(err.message);
+        }
+        console.log('registration successful');
+
+        //res.sendFile(__dirname+"/Public/regsuccess.html");
+    });
+});
+
+app.post('/clientregproccess', async(req,res)=>{
+    const {fullname, email, phone_number, address, password} = req.body;
+
+    const hashedPassword= await bcrypt.hash(password, 10);
+    //INSERT DATA
+    const dataToInsert = [fullname, email, phone_number, address, hashedPassword];
+    const qry = `INSERT INTO ${process.env.CLIENT_TABLE}(fullname, email, phone_number, address, password) VALUES(?,?,?,?,?)`;
     con.query(qry, dataToInsert, (err,result)=>{
         if(err){
             console.log(err.message);
@@ -153,9 +245,9 @@ app.post('/uploadproccess', upload.single("image"),(req,res)=>{
         if(err){
             console.log(err.message);
         }
-        console.log('registration successful');
-
-        //res.sendFile(__dirname+"/Public/regsuccess.html");
+        console.log('upload successful');
+        //res.sendFile(__dirname+"/Public/index.html");
+        window.location.href="/";
     });
 });
 
@@ -176,9 +268,38 @@ app.post('/fetch-uploadprocess', (req, res)=>{
     }
 });
 
+app.post('/fetch-agent', (req, res)=>{
+    try {
+        const qry = `SELECT * FROM ${process.env.USERS_TABLE}`;
+        con.query(qry,(err, result)=>{
+            if(err){
+                console.log(err.message);
+            }
+            else{
+                console.log(result);
+                res.status(200).json(JSON.stringify(result));
+            }
+        })
+    } catch (error) {
+        console.log(error.message);
+    }
+});
 
-app.get("/dashboard",(req,res)=>{
-    res.sendFile(__dirname+"/Public/dashboard.html");
+app.post('/fetch-client', (req, res)=>{
+    try {
+        const qry = `SELECT * FROM ${process.env.CLIENT_TABLE}`;
+        con.query(qry,(err, result)=>{
+            if(err){
+                console.log(err.message);
+            }
+            else{
+                console.log(result);
+                res.status(200).json(JSON.stringify(result));
+            }
+        })
+    } catch (error) {
+        console.log(error.message);
+    }
 });
 
 //SEND MAIL

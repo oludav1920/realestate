@@ -300,7 +300,7 @@
             </div>
             
             <div class="form-container">
-                <form action="/uploadproccess" method="post" enctype="multipart/form-data">
+                <form action="/updateuploadproccess" method="post" enctype="multipart/form-data">
                     <!-- Property Title & Type -->
                     <div class="form-row">
                         <div class="form-group" style="flex: 1;">
@@ -399,5 +399,73 @@
             </div>
         </div>
     </footer>
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateUploadProperty();
+        });
+
+        // Load Properties Data
+        async function updateUploadProperty(){
+            try {
+                const api = await fetch("fetch-uploadprocess", {
+                    method: 'POST',
+                    headers: {'Content-type': 'application/json'}
+                });
+                
+                if(!api.ok){
+                    console.error('Properties API error:', api.status);
+                    return;
+                }
+                
+                const response = await api.json();
+                const convert = JSON.parse(response);
+                
+                // Update properties table
+                let propertiesDisplay = '';
+                let recentPropertiesDisplay = '';
+                
+                for (let index = 0; index < convert.length; index++) {
+                    const property = convert[index];
+                    const statusClass = getStatusClass(property.status || 'active');
+                    
+                    // Full properties table row
+                    propertiesDisplay += `
+                    <tr>
+                        <td>LPM-${property.Index_Id || index + 1}</td>
+                        <td>${property.title || 'N/A'}</td>
+                        <td>${property.type || 'N/A'}</td>
+                        <td>${property.location || 'N/A'}</td>
+                        <td>₦ ${property.price ? parseFloat(property.price).toLocaleString() : 'N/A'}</td>
+                        <td>${property.first_name || ''} ${property.last_name || ''}</td>
+                        <td><span class="status ${statusClass}">${property.status || 'Active'}</span></td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-outline edit-property" data-id="${property.Index_Id}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger delete-property" data-id="${property.Index_Id}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>`;
+                    
+                }
+                
+                
+                // Add event listeners for property actions
+                addPropertyActionListeners();
+                
+            } catch (error) {
+                console.error('Error loading properties:', error);
+                document.getElementById('upload').textContent = '0';
+                if (document.getElementById('propertiesTableBody')) {
+                    document.getElementById('propertiesTableBody').innerHTML = 
+                        '<tr><td colspan="8" class="no-data">Error loading properties</td></tr>';
+                }
+            }
+        }
+    </script>
 </body>
 </html>

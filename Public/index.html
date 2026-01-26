@@ -760,8 +760,8 @@
             </nav>
             
             <div class="auth-buttons">
-                <button class="btn btn-outline" id="agentBtn">Agent</button>
-                <button class="btn" id="clientBtn">Client</button>
+                <button class="btn btn-outline" id="agentBtn"><a href="/agentlogin" style="color: green; text-decoration: none;">Agent</a></button>
+                <button class="btn" id="clientBtn"><a href="/clientlogin" style="color: white; text-decoration: none;">Client</a></button>
             </div>
         </div>
     </header>
@@ -773,7 +773,7 @@
             <p>Accurate, efficient, and technologically driven land and property services for individuals, organizations, and government agencies across Nigeria.</p>
             <div class="hero-buttons">
                 <a href="#properties" class="btn">Browse Properties</a>
-                <a href="#upload" class="btn btn-outline">Upload Property</a>
+                <a href="/agentlogin" class="btn btn-outline">Upload Property</a>
             </div>
         </div>
     </section>
@@ -881,14 +881,14 @@
     </section>
 
     <!-- Purchase & Upload Tabs -->
-    <section id="forms" style="background-color: var(--light-gray);">
+     <!--<section id="forms" style="background-color: var(--light-gray);">
         <div class="container">
             <div class="tabs">
                 <div class="tab active" data-tab="purchase">Purchase Property</div>
                 <div class="tab" data-tab="upload">Upload Property (Agents)</div>
             </div>
             
-            <!-- Purchase Form -->
+            Purchase Form
             <div class="tab-content active" id="purchase">
                 <div class="form-container">
                     <form id="purchaseForm">
@@ -940,10 +940,10 @@
                         <div class="form-group">
                             <label class="form-label" for="notes">Additional Notes</label>
                             <textarea id="notes" class="form-control" placeholder="Any special requirements..."></textarea>
-                        </div>
+                        </div>-->
                         
                         <!-- Payment Summary -->
-                        <div class="payment-summary">
+                        <!--<div class="payment-summary">
                             <h4>Payment Summary</h4>
                             <div class="summary-item">
                                 <span>Property Price:</span>
@@ -966,10 +966,10 @@
                         <button type="submit" class="btn mt-2" style="width: 100%;">Proceed to Payment</button>
                     </form>
                 </div>
-            </div>
+            </div>-->
             
             <!-- Upload Form -->
-            <div class="tab-content" id="upload">
+            <!--<div class="tab-content" id="upload">
                 <div class="form-container">
                     <form action="/uploadproccess" method="post" enctype="multipart/form-data" id="">
                         <h3 class="mb-2">Upload New Property</h3>
@@ -1022,7 +1022,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- Contact -->
     <section id="contact">
@@ -1155,15 +1155,15 @@
                 
                 <div class="form-group">
                     <label class="form-label" for="agentEmail">Email</label>
-                    <input type="email" id="agentEmail" class="form-control" placeholder="agent@example.com" required>
+                    <input type="email" id="email" class="form-control" placeholder="agent@example.com" required>
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label" for="agentPassword">Password</label>
-                    <input type="password" id="agentPassword" class="form-control" placeholder="Your password" required>
+                    <input type="password" id="Password" class="form-control" placeholder="Your password" required>
                 </div>
                 
-                <button type="submit" class="btn" style="width: 100%;">Login</button>
+                <button type="submit" class="btn" style="width: 100%;" onclick="submit()">Login</button>
                 
                 <!-- Forgot Password Link for Agent -->
                 <div class="forgot-password-link">
@@ -1208,6 +1208,33 @@
     </div>
     
 
+    <!-- <script>
+    async function submit(){
+        event.preventDefault();
+        const email = document.getElementById("email").value;
+        const pass = document.getElementById("password").value;
+        const e ={email:email, name:pass};
+        console.log(e);
+       try {
+          const api = await fetch('/agent-loginprocess', {
+            method:'POST',
+            headers:{'Content-type':'application/json'},
+            body:JSON.stringify(e)
+        });
+        if(!api.ok){
+            console.log(api.status);
+        }
+        else{
+            const response = await api.json();
+            const convert = JSON.parse(response);
+            alert(`welcome back ${convert.name}`);
+        }
+       } catch (error) {
+        console.log(error.message)
+       }
+    }
+</script> -->
+
     <script>
         // DOM Elements
         const propertyListings = document.getElementById('propertyListings');
@@ -1230,7 +1257,7 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            setupEventListeners();
+            //setupEventListeners();
             displayproperties();
         });
 
@@ -1253,7 +1280,7 @@
                         <div class="card">
                             <img src="${'/uploadedFiles/'+convert[index].image}" alt="${convert[index].title}" class="property-img">
                             <div class="property-info">
-                                <div class="property-price">₦${convert[index].price.toLocaleString()}</div>
+                                <div class="property-price">₦ ${parseFloat(convert[index].price).toLocaleString() }</div>
                                 <h3>${convert[index].title}</h3>
                                 <div class="property-location">
                                     <i class="fas fa-map-marker-alt"></i> ${convert[index].location}

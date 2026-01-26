@@ -298,7 +298,7 @@
                         <div class="input-icon">
                             <i class="fas fa-phone"></i>
                         </div>
-                        <input type="tel" name="phone" id="phone" class="form-control" placeholder="08012345678" required>
+                        <input type="tel" name="phone_number" id="phone" class="form-control" placeholder="08012345678" required>
                     </div>
                     <div class="error-message" id="phoneError">Please enter a valid phone number</div>
                 </div>
@@ -409,35 +409,35 @@
             // Confirm Password Validation
             confirmPasswordInput.addEventListener('input', validatePasswordMatch);
 
-            // Form Submission
-            clientRegistrationForm.addEventListener('submit', function(e) {
-                e.preventDefault();
+            // // Form Submission
+            // clientRegistrationForm.addEventListener('submit', function(e) {
+            //     e.preventDefault();
                 
-                if (validateForm()) {
-                    // Get form data
-                    const formData = {
-                        fullName: document.getElementById('fullName').value,
-                        email: document.getElementById('email').value,
-                        phone: document.getElementById('phone').value,
-                        address: document.getElementById('address').value,
-                        password: passwordInput.value,
-                        registrationDate: new Date().toISOString()
-                    };
+            //     if (validateForm()) {
+            //         // Get form data
+            //         const formData = {
+            //             fullName: document.getElementById('fullName').value,
+            //             email: document.getElementById('email').value,
+            //             phone: document.getElementById('phone').value,
+            //             address: document.getElementById('address').value,
+            //             password: passwordInput.value,
+            //             registrationDate: new Date().toISOString()
+            //         };
                     
-                    // In a real application, you would send this data to your server
-                    console.log('Client Registration Data:', formData);
+            //         // In a real application, you would send this data to your server
+            //         //console.log('Client Registration Data:', formData);
                     
-                    // Show success message
-                    successMessage.style.display = 'block';
-                    clientRegistrationForm.reset();
+            //         // Show success message
+            //         successMessage.style.display = 'block';
+            //         clientRegistrationForm.reset();
                     
-                    // Simulate redirect after 3 seconds
-                    setTimeout(() => {
-                        alert('Registration successful! Redirecting to login page...');
-                        // window.location.href = 'client-login.html';
-                    }, 3000);
-                }
-            });
+            //         // Simulate redirect after 3 seconds
+            //         setTimeout(() => {
+            //             alert('Registration successful! Redirecting to login page...');
+            //             // window.location.href = 'client-login.html';
+            //         }, 3000);
+            //     }
+            // });
 
             // Real-time validation for inputs
             document.getElementById('fullName').addEventListener('blur', validateName);
