@@ -361,7 +361,6 @@
 
         <!-- Form Container -->
         <div class="form-container">
-            <!-- <form id="loginForm"> -->
                 <div>
                 <!-- Email -->
                 <div class="form-group">
@@ -397,7 +396,7 @@
                 </div>
 
                 <!-- Login Button -->
-                <button type="submit" class="btn">
+                <button type="submit" class="btn" onclick="submit()">
                     <i class="fas fa-sign-in-alt"></i> Login
                 </button>
             </form>
@@ -445,7 +444,6 @@
                     </button>
                 </div>
                 </div>
-            <!-- </form> -->
         </div>
     </div>
 
@@ -457,7 +455,7 @@
         const data ={email:email, password:password};
         console.log(data);
        try {
-          const api = await fetch('/clienloginprocess', {
+          const api = await fetch('/clientloginprocess', {
             method:'POST',
             headers:{'Content-type':'application/json'},
             body:JSON.stringify(data)

@@ -174,7 +174,7 @@ const {email, password} = req.body;
     }
 });
 
-app.post('/clientloginprocess', (req,res)=>{
+app.post('/clientloginprocess', async(req,res)=>{
     //SELECT QUERY
 const {email, password} = req.body;
     console.log(email,password);
@@ -182,22 +182,26 @@ const {email, password} = req.body;
         res.status(400).json();
     }
     else{
-        const log =`SELECT FROM root WHERE email=? AND password=?`;
-        con.query(log, [email, password], (err,result)=>{
+        const hashedPassword =  await bcrypt.hash(password, 10);
+        const logg =`SELECT * FROM ${process.env.CLIENT_TABLE} WHERE email=? AND password=?`;
+        con.query(logg, [email, hashedPassword], (err, result)=>{
             if(err){
-                console.log(err.message);
+                console.log(err);
             }
             if(result.length > 0){
+                console.log("success");
                 return res.status(200).json(JSON.stringify(result[0]));
             }
             else{
-                return res.status(400).json();
+                console.log('fail');
+                return res.status(404).json();
             }
             console.log("login success");
-            res.sendFile(__dirname+"/Public/dashboard.html");
+            res.sendFile(__dirname+"/Public/upload-property.html");
         });
     }
 });
+
 
 app.post('/adminregproccess', async(req,res)=>{
     const {fulname, email, phone_number, password} = req.body;
@@ -228,8 +232,7 @@ app.post('/clientregproccess', async(req,res)=>{
             console.log(err.message);
         }
         console.log('registration successful');
-
-        //res.sendFile(__dirname+"/Public/regsuccess.html");
+        res.sendFile(__dirname+"/Public/client-login.html");
     });
 });
 
