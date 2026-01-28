@@ -361,7 +361,7 @@
 
         <!-- Form Container -->
         <div class="form-container">
-            <form id="loginForm" action="/adminloginproccess" method="post">
+            <div>
                 <!-- Email -->
                 <div class="form-group">
                     <label class="form-label" for="email">Email Address</label>
@@ -396,7 +396,7 @@
                 </div>
 
                 <!-- Login Button -->
-                <button type="submit" class="btn">
+                <button type="submit" class="btn" onclick="submit()">
                     <i class="fas fa-sign-in-alt"></i> Login
                 </button>
             </form>
@@ -443,10 +443,49 @@
                         Cancel
                     </button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 
+    <script>
+        async function submit(){
+    event.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const data = {email: email, password: password};
+    
+    try {
+        const api = await fetch('/adminloginprocess', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        });
+        
+        const response = await api.json();
+        
+        if(!api.ok){
+            alert(response.message || 'Login failed');
+            console.log('Error status:', api.status);
+        } else {
+            // Success
+            alert(`Welcome back ${response.user.email || response.user.name || 'User'}!`);
+            
+            // Store user data if needed (consider using HttpOnly cookies for security)
+            if(response.user) {
+                localStorage.setItem('user', JSON.stringify(response.user));
+            }
+            
+            // Redirect after successful login
+            setTimeout(() => {
+                window.location.href = "/dashboard";
+            }, 1000);
+        }
+    } catch (error) {
+        console.log('Network error:', error.message);
+        alert('Network error. Please try again.');
+    }
+}
+</script>
     <script>
         // Simple modal functionality
         document.addEventListener('DOMContentLoaded', function() {

@@ -1032,9 +1032,8 @@
             logoutBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 if (confirm('Are you sure you want to logout?')) {
-                    alert('Logged out successfully! Redirecting to login...');
-                    // In real app, redirect to login page
-                    // window.location.href = 'login.html';
+                    
+                     window.location.href = '/adminlogin';
                 }
             });
 
@@ -1361,16 +1360,53 @@
                     alert(`Edit agent ${agentId} (Feature to be implemented)`);
                 });
             });
-            
+            //delete
             document.querySelectorAll('.delete-agent').forEach(btn => {
-                btn.addEventListener('click', function() {
+                    btn.addEventListener('click', function() {
                     const agentId = this.getAttribute('data-id');
-                    if (confirm(`Are you sure you want to delete agent ${agentId}?`)) {
-                        alert(`Agent ${agentId} deleted!`);
-                        // In real app, send delete request to server
+                    const agentName = this.closest('tr').querySelector('td:nth-child(2)').textContent;
+                    
+                    if (confirm(`Are you sure you want to delete agent ${agentName} (ID: ${agentId})? This action cannot be undone.`)) {
+                        deleteAgent(agentId);
                     }
                 });
             });
+
+async function deleteAgent(agentId) {
+    try {
+        const response = await fetch('/deleteagent', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ agentId: agentId })
+        });
+
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+            alert(`Agent ${agentId} deleted successfully!`);
+            
+            // Remove the row from the table
+            const rowToDelete = document.querySelector(`.delete-agent[data-id="${agentId}"]`).closest('tr');
+            rowToDelete.remove();
+            
+            // Update statistics if needed
+            updateAgentCount();
+        } else {
+            alert(`Error: ${result.message || 'Failed to delete agent'}`);
+        }
+    } catch (error) {
+        console.error('Error deleting agent:', error);
+        alert('Network error. Please try again.');
+    }
+}
+
+// Optional: Update agent count after deletion
+// function updateAgentCount() {
+//     const agentCount = document.querySelectorAll('tbody tr').length;
+//     document.getElementById('totalAgents').textContent = agentCount;
+// }
         }
 
         // Add action listeners for clients
@@ -1381,16 +1417,46 @@
                     alert(`Edit client ${clientId} (Feature to be implemented)`);
                 });
             });
-            
+            //delete
             document.querySelectorAll('.delete-client').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const clientId = this.getAttribute('data-id');
-                    if (confirm(`Are you sure you want to delete client ${clientId}?`)) {
-                        alert(`Client ${clientId} deleted!`);
-                        // In real app, send delete request to server
+                    const agentName = this.closest('tr').querySelector('td:nth-child(2)').textContent;
+                    if (confirm(`Are you sure you want to delete client (ID: ${clientId})? This action cannot be undone.`)) {
+                        deleteClient(clientId);
                     }
                 });
             });
+
+async function deleteClient(clientId) {
+    try {
+        const response = await fetch('/deleteclient', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ clientId: clientId })
+        });
+
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+            alert(`Client ${clientId} deleted successfully!`);
+            
+            // Remove the row from the table
+            const rowToDelete = document.querySelector(`.delete-client[data-id="${clientId}"]`).closest('tr');
+            rowToDelete.remove();
+            
+            // Update statistics if needed
+            //updateClientCount();
+        } else {
+            alert(`Error: ${result.message || 'Failed to delete client'}`);
+        }
+    } catch (error) {
+        console.error('Error deleting client:', error);
+        alert('Network error. Please try again.');
+    }
+}
         }
 
         // Helper functions for other sections
