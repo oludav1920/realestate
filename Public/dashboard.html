@@ -1344,12 +1344,42 @@
             document.querySelectorAll('.delete-property').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const propertyId = this.getAttribute('data-id');
-                    if (confirm(`Are you sure you want to delete property ${propertyId}?`)) {
-                        alert(`Property ${propertyId} deleted!`);
-                        // In real app, send delete request to server
+                    //const PropertyName = this.closest('tr').querySelector('td:nth-child(2)').textContent;
+                    if (confirm(`Are you sure you want to delete property (ID: ${propertyId})? This action cannot be undone.`)) {
+                        deleteProperty(propertyId);
                     }
                 });
             });
+
+async function deleteProperty(propertyId) {
+    try {
+        const response = await fetch('/deleteproperty', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ propertyId: propertyId })
+        });
+
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+            alert(`Property ${propertyId} deleted successfully!`);
+            
+            // Remove the row from the table
+            const rowToDelete = document.querySelector(`.delete-property[data-id="${propertyId}"]`).closest('tr');
+            rowToDelete.remove();
+            
+            // Update statistics if needed
+            //updatePropertyCount();
+        } else {
+            alert(`Error: ${result.message || 'Failed to delete property'}`);
+        }
+    } catch (error) {
+        console.error('Error deleting property:', error);
+        alert('Network error. Please try again.');
+    }
+}
         }
 
         // Add action listeners for agents
@@ -1421,8 +1451,8 @@ async function deleteAgent(agentId) {
             document.querySelectorAll('.delete-client').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const clientId = this.getAttribute('data-id');
-                    const agentName = this.closest('tr').querySelector('td:nth-child(2)').textContent;
-                    if (confirm(`Are you sure you want to delete client (ID: ${clientId})? This action cannot be undone.`)) {
+                    const clientName = this.closest('tr').querySelector('td:nth-child(2)').textContent;
+                    if (confirm(`Are you sure you want to delete client ${clientName} (ID: ${clientId})? This action cannot be undone.`)) {
                         deleteClient(clientId);
                     }
                 });

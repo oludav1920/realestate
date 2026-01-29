@@ -465,22 +465,76 @@ app.post('/deleteclient', (req, res) => {
     }
 });
 
+//for property
+app.post('/deleteproperty', (req, res) => {
+    try {
+        const { propertyId, adminPassword } = req.body; // Optional: Add admin confirmation
+        
+        if (!propertyId) {
+            return res.status(400).json({ message: "Agent ID is required" });
+        }
+        
+        // Optional: Verify admin password
+        if (adminPassword && adminPassword !== process.env.ADMIN_PASSWORD) {
+            return res.status(401).json({ message: "Invalid admin password" });
+        }
+
+        // Soft delete (recommended)
+        const qry = `UPDATE ${process.env.UPLOAD_TABLE} 
+                     SET status = 'deleted', deleted_at = NOW() 
+                     WHERE Index_Id = ? AND status != 'deleted'`;
+        
+        con.query(qry, [propertyId], (err, result) => {
+            if (err) {
+                console.error('Delete error:', err);
+                return res.status(500).json({ 
+                    success: false, 
+                    message: "Database error", 
+                    error: err.message 
+                });
+            }
+            
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ 
+                    success: false, 
+                    message: "Property not found or already deleted" 
+                });
+            }
+            
+            console.log(`Property ${propertyId} marked as deleted`);
+            return res.status(200).json({ 
+                success: true, 
+                message: "Property deleted successfully",
+                affectedRows: result.affectedRows
+            });
+        });
+    } catch (error) {
+        console.error('Server error:', error);
+        return res.status(500).json({ 
+            success: false, 
+            message: "Server error", 
+            error: error.message 
+        });
+    }
+});
 
 //UPLOADPROPERTY
 app.post('/uploadproccess', upload.single("image"),(req,res)=>{
     const {title, type, price, location, description, agent_id} = req.body;
     const saveImagePath = req.file.filename;
+    const status ="";
+    const delete_date ="";
     console.log(req.file);
     //INSERT DATA
-    const dataToInsert = [title, type, price, location, description, saveImagePath, agent_id];
-    const qry = `INSERT INTO ${process.env.UPLOAD_TABLE}(title, type, price, location, description, image, agent_id) VALUES(?,?,?,?,?,?,?)`;
+    const dataToInsert = [title, type, price, location, description, saveImagePath, agent_id,status,delete_date];
+    const qry = `INSERT INTO ${process.env.UPLOAD_TABLE}(title, type, price, location, description, image, agent_id,status,deleted_at) VALUES(?,?,?,?,?,?,?,?,?)`;
     con.query(qry, dataToInsert, (err,result)=>{
         if(err){
             console.log(err.message);
         }
         console.log('upload successful');
-        //res.sendFile(__dirname+"/Public/index.html");
-        window.location.href="/";
+        res.sendFile(__dirname+"/Public/index.html");
+        //window.location.href="/";
     });
 });
 
