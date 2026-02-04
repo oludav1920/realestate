@@ -1161,6 +1161,7 @@
                             const price = this.getAttribute('data-price');
                             
                             alert(`Buying ${title} for ₦${parseInt(price).toLocaleString()}`);
+                            // window.open(`https://wa.me/23462667787?text=i'm intrested in this property`, '_blank');
                         });
                     });
                 }
@@ -1221,6 +1222,7 @@
             if (loadMoreBtn) {
                 loadMoreBtn.addEventListener('click', function() {
                     alert('Loading more properties... (This would fetch from server in a real application)');
+                    
                 });
             }
 
