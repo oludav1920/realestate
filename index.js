@@ -538,6 +538,11 @@ app.post('/uploadproccess', upload.single("image"),(req,res)=>{
     });
 });
 
+//RESET PASSWORD
+app.post('/resetlink', (req, res)=>{
+    const {email} = req.body;  
+});
+
 //SEND MAIL
 app.post('/mailprocess', (req,res)=>{
     const {name, email, heading, message} = req.body;
