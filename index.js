@@ -14,7 +14,7 @@ const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 
 app.get("/",(req,res)=>{
-    res.sendFile(__dirname+"/Public/index.html");
+    res.sendFile(__dirname+"/index.html");
 });
 
 app.get("/reg",(req,res)=>{
