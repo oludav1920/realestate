@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Maps & Property | Surveying & Real Estate</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset & Base */
+        :root {
+            --primary: #27ae60; /* Green */
+            --primary-dark: #219150;
+            --secondary: #2c3e50; /* Dark Blue/Black */
+            --accent: #f39c12; /* Gold accent */
+            --light: #f8f9fa;
+            --dark: #1a252f;
+            --gray: #7f8c8d;
+            --light-gray: #ecf0f1;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--secondary);
+            background-color: var(--white);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        section {
+            padding: 60px 0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 2rem;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background-color: var(--primary);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            display: inline-block;
+        }
+
+        .section-title h2:after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--gray);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--dark);
+        }
+
+        /* Header */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0;
+            line-height: 1.2;
+        }
+
+        .logo-text span {
+            color: var(--primary);
+        }
+
+        .tagline {
+            font-size: 0.8rem;
+            color: var(--gray);
+            font-style: italic;
+        }
+
+        /* Mobile menu dropdown */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--secondary);
+            cursor: pointer;
+            position: relative;
+            z-index: 1001;
+        }
+
+        /* Desktop Navigation */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 600;
+            transition: var(--transition);
+            padding: 5px 0;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+
+        /* Mobile Dropdown Menu */
+        .mobile-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: var(--white);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-top: 1px solid var(--light-gray);
+            display: none;
+            z-index: 999;
+        }
+
+        .mobile-dropdown.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-dropdown ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mobile-dropdown ul li {
+            margin: 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .mobile-dropdown ul li:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-dropdown ul li a {
+            display: block;
+            padding: 15px 20px;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .mobile-dropdown ul li a:hover {
+            background-color: var(--light-gray);
+            color: var(--primary);
+            padding-left: 25px;
+        }
+
+        .mobile-dropdown .auth-buttons-mobile {
+            padding: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            border-top: 1px solid var(--light-gray);
+            margin-top: 10px;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(44, 62, 80, 0.85), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 150px 0 80px;
+            margin-top: 70px;
+        }
+
+        .hero h1 {
+            color: white;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            color: rgba(255,255,255,0.9);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            font-size: 1.1rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            padding: 30px;
+            text-align: center;
+            border-top: 4px solid var(--primary);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        /* Properties */
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .property-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .property-info {
+            padding: 20px;
+        }
+
+        .property-price {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .property-location {
+            color: var(--gray);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .property-description {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 15px 0;
+            padding: 15px 0;
+            border-top: 1px solid var(--light-gray);
+            max-height: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Forms */
+        .form-container {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Payment Summary */
+        .payment-summary {
+            background-color: var(--light-gray);
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .summary-total {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid var(--light-gray);
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Values */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .value-card {
+            text-align: center;
+            padding: 30px 20px;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .value-letter {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0 auto 20px;
+        }
+
+        /* Contact */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .contact-info h3 {
+            margin-bottom: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .contact-icon {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-right: 15px;
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3:after {
+            background-color: var(--primary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+        }
+
+        .motto {
+            color: var(--primary);
+            font-style: italic;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        /* Forgot Password Link */
+        .forgot-password-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .forgot-password-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .forgot-password-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .menu-toggle {
+                display: block;
+                order: 1;
+            }
+            
+            .logo {
+                order: 0;
+            }
+            
+            /* Hide desktop navigation on mobile */
+            nav:not(.mobile-dropdown) {
+                display: none;
+            }
+            
+            /* Show auth buttons on mobile */
+            .auth-buttons:not(.auth-buttons-mobile) {
+                order: 2;
+                margin-left: auto;
+            }
+            
+            .hero {
+                padding: 120px 0 60px;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .property-grid,
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (min-width: 769px) {
+            /* Hide mobile dropdown on desktop */
+            .mobile-dropdown {
+                display: none !important;
+            }
+            
+            /* Show desktop navigation */
+            nav:not(.mobile-dropdown) {
+                display: block !important;
+            }
+            
+            .auth-buttons-mobile {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                width: 95%;
+            }
+            
+            section {
+                padding: 40px 0;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                text-align: center;
+                border-bottom: none;
+                border-left: 3px solid transparent;
+            }
+            
+            .tab.active {
+                border-bottom: none;
+                border-left: 3px solid var(--primary);
+            }
+            
+            .auth-buttons {
+                gap: 8px;
+            }
+            
+            .auth-buttons .btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+        
+        .mt-1 { margin-top: 1rem; }
+        .mt-2 { margin-top: 2rem; }
+        .mt-3 { margin-top: 3rem; }
+        .mb-1 { margin-bottom: 1rem; }
+        .mb-2 { margin-bottom: 2rem; }
+        .mb-3 { margin-bottom: 3rem; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Lead Maps & <span>Property</span></h1>
+                    <div class="tagline">Leading with Precision & Integrity</div>
+                </div>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#properties">Properties</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <div class="auth-buttons">
+                <button class="btn btn-outline" id="agentBtn"><a href="/agentlogin" style="color: green; text-decoration: none;">Agent</a></button>
+                <button class="btn" id="clientBtn"><a href="/clientlogin" style="color: white; text-decoration: none;">Client</a></button>
+            </div>
+            
+            <!-- Mobile Dropdown Menu -->
+            <div class="mobile-dropdown" id="mobileDropdown">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#properties">Properties</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="auth-buttons-mobile">
+                    <button class="btn btn-outline" id="agentBtnMobile"><a href="/agentlogin" style="color: green; text-decoration: none;">Agent</a></button>
+                    <button class="btn" id="clientBtnMobile"><a href="/clientlogin" style="color: white; text-decoration: none;">Client</a></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Professional Surveying & Property Solutions</h1>
+            <p>Accurate, efficient, and technologically driven land and property services for individuals, organizations, and government agencies across Nigeria.</p>
+            <div class="hero-buttons">
+                <a href="#properties" class="btn">Browse Properties</a>
+                <a href="/agentlogin" class="btn btn-outline">Upload Property</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>About Us</h2>
+                <p>Registered Nigerian company offering professional surveying, mapping, and property management services</p>
+            </div>
+            
+            <div class="contact-grid">
+                <div>
+                    <h3>Our Mission</h3>
+                    <p>To deliver high-quality mapping, surveying, and property documentation services using modern technology, professional expertise, and integrity.</p>
+                    
+                    <h3 class="mt-2">Our Vision</h3>
+                    <p>To be the leading provider of innovative mapping, surveying, and property solutions that drive sustainable development across Africa.</p>
+                    
+                    <div class="motto mt-2">Leading with Precision and Integrity</div>
+                </div>
+                
+                <div>
+                    <h3>Core Values (L.E.A.D.)</h3>
+                    <div class="values-grid">
+                        <div class="value-card">
+                            <div class="value-letter">L</div>
+                            <h4>Leadership</h4>
+                            <p>Setting high standards in mapping and property services</p>
+                        </div>
+                        <div class="value-card">
+                            <div class="value-letter">E</div>
+                            <h4>Excellence</h4>
+                            <p>Delivering outstanding results through skill and innovation</p>
+                        </div>
+                        <div class="value-card">
+                            <div class="value-letter">A</div>
+                            <h4>Accuracy</h4>
+                            <p>Ensuring precise measurement and documentation</p>
+                        </div>
+                        <div class="value-card">
+                            <div class="value-letter">D</div>
+                            <h4>Dedication</h4>
+                            <p>Committed to exceeding client expectations</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" style="background-color: var(--light-gray);">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Services</h2>
+                <p>Comprehensive surveying, mapping, and property management solutions</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="card service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-draw-polygon"></i>
+                    </div>
+                    <h3>Boundary Survey</h3>
+                    <p>Accurate cadastral and boundary surveys for property verification and documentation.</p>
+                </div>
+                
+                <div class="card service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3>GPS & GIS Mapping</h3>
+                    <p>Advanced spatial data collection and analysis for planning and development.</p>
+                </div>
+                
+                <div class="card service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <h3>Property Documentation</h3>
+                    <p>Assistance with Certificates of Occupancy, Governor's Consent, and land registration.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Properties -->
+    <section id="properties">
+        <div class="container">
+            <div class="section-title">
+                <h2>Available Properties</h2>
+                <p>Browse and purchase verified properties with secure online payment</p>
+            </div>
+            
+            <div class="property-grid" id="propertyListings">
+                <!-- Properties loaded dynamically -->
+            </div>
+            
+            <div class="text-center mt-3">
+                <button class="btn btn-outline" id="loadMore">Load More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contact Us</h2>
+                <p>Get in touch for professional surveying and property services</p>
+            </div>
+            
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>08057167001</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4>Email</h4>
+                            <p>leadmapandpropertylimited@gmail.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h4>Location</h4>
+                            <p>Nigeria</p>
+                        </div>
+                    </div>
+                    
+                    <div class="motto mt-2">Leading with Precision and Integrity</div>
+                </div>
+                
+                <div>
+                    <h3>Send Message</h3>
+                    <form action="/mailprocess" method="post" id="contactForm">
+                        <div class="form-group">
+                            <label class="form-label" for="contactName">Your Name</label>
+                            <input type="text" name="name" id="contactName" class="form-control" placeholder="Your name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="contactEmail">Your Email</label>
+                            <input type="email" name="email" id="contactEmail" class="form-control" placeholder="your@email.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="contactSubject">Subject</label>
+                            <input type="text" name="heading" id="contactSubject" class="form-control" placeholder="Subject" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="contactMessage">Message</label>
+                            <textarea id="contactMessage" name="message" class="form-control" placeholder="Your message..." required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>Lead Maps & Property</h3>
+                    <p>Professional surveying, mapping, and property management services with accuracy and integrity.</p>
+                    <div class="motto">Leading with Precision and Integrity</div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#properties">Properties</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#services">Boundary Survey</a></li>
+                        <li><a href="#services">GPS Mapping</a></li>
+                        <li><a href="#services">Property Documentation</a></li>
+                        <li><a href="#services">Layout Design</a></li>
+                        <li><a href="#services">Property Valuation</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> 08057167001</li>
+                        <li><i class="fas fa-envelope"></i> leadmapandpropertylimited@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2026 Lead Maps and Property Limited. All rights reserved.</p>
+                <p>Develop by OluDev</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const propertyListings = document.getElementById('propertyListings');
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileDropdown = document.getElementById('mobileDropdown');
+        const agentBtn = document.getElementById('agentBtn');
+        const clientBtn = document.getElementById('clientBtn');
+        const loadMoreBtn = document.getElementById('loadMore');
+        const agentBtnMobile = document.getElementById('agentBtnMobile');
+        const clientBtnMobile = document.getElementById('clientBtnMobile');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            displayproperties();
+        });
+
+        async function displayproperties(){
+            try {
+                const api = await fetch("/fetch-uploadprocess", {
+                    method:'POST',
+                    headers:{'Content-type':'application/json'}
+                });
+                if(!api.ok){
+                    console.log(api.status);
+                }
+                else{
+                    const response = await api.json();
+                    const convert = JSON.parse(response);
+                    let display='';
+                    for (let index = 0; index < convert.length; index++) {
+                        
+                        display+=`
+                        <div class="card">
+                            <img src="${'/uploadedFiles/'+convert[index].image}" alt="${convert[index].title}" class="property-img">
+                            <div class="property-info">
+                                <div class="property-price">₦ ${parseFloat(convert[index].price).toLocaleString() }</div>
+                                <h3>${convert[index].title}</h3>
+                                <div class="property-location">
+                                    <i class="fas fa-map-marker-alt"></i> ${convert[index].location}
+                                </div>
+                                <div class="property-description">
+                                    ${convert[index].description.substring(0, 120)}${convert[index].description.length > 120 ? '...' : ''}
+                                </div>
+                                <button class="btn buy-btn" data-id="${convert[index].id}" data-title="${convert[index].title}" data-location="${convert[index].location}" data-price="${convert[index].price}" style="width: 100%; margin-top: 15px;">
+                                    Buy Now
+                                </button>
+                            </div>
+                        </div>
+                        `;
+                    }
+                    document.getElementById('propertyListings').innerHTML=display;
+                    
+                    // Add event listeners to buy buttons after rendering
+                    document.querySelectorAll('.buy-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const id = this.getAttribute('data-id');
+                            const title = this.getAttribute('data-title');
+                            const location = this.getAttribute('data-location');
+                            const price = this.getAttribute('data-price');
+                            
+                            alert(`Buying ${title} for ₦${parseInt(price).toLocaleString()}`);
+                            // window.open(`https://wa.me/23462667787?text=i'm intrested in this property`, '_blank');
+                        });
+                    });
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        // Setup Event Listeners
+        function setupEventListeners() {
+            // Mobile menu toggle (dropdown)
+            menuToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                mobileDropdown.classList.toggle('active');
+                this.innerHTML = mobileDropdown.classList.contains('active') 
+                    ? '<i class="fas fa-times"></i>' 
+                    : '<i class="fas fa-bars"></i>';
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!mobileDropdown.contains(e.target) && !menuToggle.contains(e.target)) {
+                    mobileDropdown.classList.remove('active');
+                    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+
+            // Close dropdown when clicking on a link
+            mobileDropdown.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileDropdown.classList.remove('active');
+                    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                });
+            });
+
+            // Close dropdown on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && mobileDropdown.classList.contains('active')) {
+                    mobileDropdown.classList.remove('active');
+                    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+
+            // Mobile auth buttons (for mobile dropdown)
+            if (agentBtnMobile) {
+                agentBtnMobile.addEventListener('click', function(e) {
+                    // Already linked to /agentlogin via <a> tag
+                });
+            }
+
+            if (clientBtnMobile) {
+                clientBtnMobile.addEventListener('click', function(e) {
+                    // Already linked to /clientlogin via <a> tag
+                });
+            }
+
+            // Load more properties
+            if (loadMoreBtn) {
+                loadMoreBtn.addEventListener('click', function() {
+                    alert('Loading more properties... (This would fetch from server in a real application)');
+                    
+                });
+            }
+
+            // Smooth scrolling for anchor links (including mobile dropdown links)
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    if (this.getAttribute('href') === '#') return;
+                    
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
