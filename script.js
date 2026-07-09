@@ -4,3 +4,5 @@ con.query("CREATE TABLE IF NOT EXISTS lead_map(id INT AUTO_INCREAMENT PRIMARY KE
     }
     console.log("table created")
 })
+
+
